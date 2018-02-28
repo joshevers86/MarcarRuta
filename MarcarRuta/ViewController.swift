@@ -34,7 +34,7 @@ import CoreLocation
 class ViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var mapa: MKMapView!
-     private let clManejador = CLLocationManager()
+    private let clManejador = CLLocationManager()
     let radioRegion:CLLocationDistance = 100.0
     var posAnterior:CLLocation = CLLocation()
     var posInicial:CLLocation? = nil
@@ -48,8 +48,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.clManejador.delegate = self
         self.clManejador.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         self.clManejador.requestWhenInUseAuthorization()
-        mapa.showsUserLocation = true
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -64,106 +62,86 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
      
      
      //autorizacion de la app para que lo accepte el usuario
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if status == .AuthorizedWhenInUse {
+    private func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            
             self.clManejador.startUpdatingLocation()
             self.clManejador.startUpdatingHeading()
             mapa.showsCompass = true
-            mapa.zoomEnabled = true
-            mapa.scrollEnabled = true
+            mapa.isZoomEnabled = true
+            mapa.isScrollEnabled = true
             self.clManejador.distanceFilter = 50.0
         }else{
             self.clManejador.stopUpdatingLocation()
             self.clManejador.stopUpdatingHeading()
             mapa.showsUserLocation = false
             mapa.showsCompass = false
-            mapa.zoomEnabled = false
-            mapa.scrollEnabled = false
+            mapa.isZoomEnabled = false
+            mapa.isScrollEnabled = false
         }
     }
     
     //se obtnienen los valores de los 6 paramétros del protocolo
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    private func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         //let localizacionActual = locations.last
         let localizacionActual = self.clManejador.location!
         
-        
-        
-        
-        
-        
-        centerMapOnLocation(localizacionActual)
+        centerMapOnLocation(location: localizacionActual)
         
         if posInicial == nil{
             posInicial = localizacionActual
         }
         
-        distancia = localizacionActual.distanceFromLocation(posInicial!)
+        distancia = localizacionActual.distance(from: posInicial!)
         
         let pin = MKPointAnnotation() //MKPointAnnotation --> ya ha implementado el protocolo MKAnnotation
         pin.title = "\(localizacionActual.coordinate.latitude), \(localizacionActual.coordinate.longitude)"
         pin.subtitle = "\(distancia)"
         pin.coordinate = localizacionActual.coordinate
         mapa.addAnnotation(pin)
-        
-    
+
     }
-    
-    
+
     func centerMapOnLocation(location: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, radioRegion * 2.0, radioRegion * 2.0)
         mapa.setRegion(coordinateRegion, animated: true)
     }
-    
-    
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        let alerta = UIAlertController(title: "Error", message: "error \(error.code)", preferredStyle: .Alert)
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        let alerta = UIAlertController(title: "Error", message: "error \(error.localizedDescription)", preferredStyle: .alert)
         // boton OK
-        let accionOk = UIAlertAction(title: "Ok", style: .Default, handler:
+        let accionOk = UIAlertAction(title: "Ok", style: .default, handler:
             { accion in
                 //hacer algo ..
         })
         
         alerta.addAction(accionOk)
-        self.presentViewController(alerta, animated: true, completion: nil)
+        self.present(alerta, animated: true, completion: nil)
     }
-    
-    
-    func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         //norteGeo.text = "\(newHeading.trueHeading)"
         //norteMg.text = "\(newHeading.magneticHeading)"
     }
-    
 
     @IBAction func seleccionarMapaStandar(sender: UIButton) {
-        if mapa.mapType != MKMapType.Standard {
-            mapa.mapType = MKMapType.Standard
+        if mapa.mapType != MKMapType.standard {
+            mapa.mapType = MKMapType.standard
         }
     }
-    
-    
-    
+
     @IBAction func seleccionarMapaSatelital(sender: UIButton) {
         
-        if mapa.mapType != MKMapType.Satellite {
-            mapa.mapType = MKMapType.Satellite
+        if mapa.mapType != MKMapType.satellite {
+            mapa.mapType = MKMapType.satellite
         }
     }
-    
-    
-    
+
     @IBAction func seleccionarMapaHibrido(sender: UIButton) {
-        if mapa.mapType != MKMapType.Hybrid {
-            mapa.mapType = MKMapType.Hybrid
+        if mapa.mapType != MKMapType.hybrid {
+            mapa.mapType = MKMapType.hybrid
         }
     }
-    
-    
-    
-    
-    
-
-
 }
 

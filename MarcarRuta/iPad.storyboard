@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jCf-Dh-Yb3">
+    <device id="ipad9_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="WRX-be-42J">
+            <objects>
+                <viewController id="jCf-Dh-Yb3" customClass="ViewController" customModule="MarcarRuta" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5cl-4d-V7j"/>
+                        <viewControllerLayoutGuide type="bottom" id="1LC-BF-IMi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ACT-Lm-eUa">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="980"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="BSR-3u-fW5">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="980"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7pp-0G-RRP">
+                                <rect key="frame" x="24" y="28" width="61" height="30"/>
+                                <color key="backgroundColor" red="0.81176470590000005" green="0.81176470590000005" blue="0.81176470590000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Estándar"/>
+                                <connections>
+                                    <action selector="seleccionarMapaStandarWithSender:" destination="jCf-Dh-Yb3" eventType="touchUpInside" id="Ki2-4e-xQQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPu-0Z-7we">
+                                <rect key="frame" x="93" y="28" width="52" height="30"/>
+                                <color key="backgroundColor" red="0.81176470590000005" green="0.81176470590000005" blue="0.81176470590000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Satélite"/>
+                                <connections>
+                                    <action selector="seleccionarMapaSatelitalWithSender:" destination="jCf-Dh-Yb3" eventType="touchUpInside" id="svB-MH-NQ8"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dFR-I0-DDP">
+                                <rect key="frame" x="153" y="28" width="50" height="30"/>
+                                <color key="backgroundColor" red="0.81176470590000005" green="0.81176470590000005" blue="0.81176470590000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Hibrído"/>
+                                <connections>
+                                    <action selector="seleccionarMapaHibridoWithSender:" destination="jCf-Dh-Yb3" eventType="touchUpInside" id="pNN-Wk-GH6"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="BSR-3u-fW5" firstAttribute="top" secondItem="ACT-Lm-eUa" secondAttribute="top" id="7WU-z3-7Mh"/>
+                            <constraint firstItem="BSR-3u-fW5" firstAttribute="bottom" secondItem="1LC-BF-IMi" secondAttribute="top" id="8uE-Rr-Tv5"/>
+                            <constraint firstItem="uPu-0Z-7we" firstAttribute="baseline" secondItem="dFR-I0-DDP" secondAttribute="baseline" id="Cck-rS-VWC"/>
+                            <constraint firstItem="7pp-0G-RRP" firstAttribute="top" secondItem="5cl-4d-V7j" secondAttribute="bottom" constant="8" symbolic="YES" id="E7Q-v3-84l"/>
+                            <constraint firstItem="7pp-0G-RRP" firstAttribute="leading" secondItem="ACT-Lm-eUa" secondAttribute="leadingMargin" constant="4" id="cPO-0Z-ro6"/>
+                            <constraint firstItem="uPu-0Z-7we" firstAttribute="leading" secondItem="7pp-0G-RRP" secondAttribute="trailing" constant="8" id="egt-L9-WXY"/>
+                            <constraint firstAttribute="trailing" secondItem="BSR-3u-fW5" secondAttribute="trailing" id="pwv-BY-qCg"/>
+                            <constraint firstItem="BSR-3u-fW5" firstAttribute="leading" secondItem="ACT-Lm-eUa" secondAttribute="leading" id="rgT-Yx-fMT"/>
+                            <constraint firstItem="dFR-I0-DDP" firstAttribute="leading" secondItem="uPu-0Z-7we" secondAttribute="trailing" constant="8" id="vfs-QC-ezB"/>
+                            <constraint firstItem="7pp-0G-RRP" firstAttribute="baseline" secondItem="uPu-0Z-7we" secondAttribute="baseline" id="xC9-b3-cQC"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="pV9-o2-kpV"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="mapa" destination="BSR-3u-fW5" id="lDQ-Sh-3oc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="syP-A3-Efx" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="415" y="469"/>
+        </scene>
+    </scenes>
+</document>
