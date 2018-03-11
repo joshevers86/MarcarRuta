@@ -28,26 +28,26 @@ NOTA: Como el programa corre en el simulador se debe seleccionar la opción de �
 ***/
 
 import UIKit
-import MapKit
 import CoreLocation
+import MapKit
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController {
 
     @IBOutlet weak var mapa: MKMapView!
-    private let clManejador = CLLocationManager()
-    let radioRegion:CLLocationDistance = 100.0
+    let manejador = CLLocationManager()
+    var punto = CLLocationCoordinate2D()
+    let radioRegion:CLLocationDistance = 1.0
     var posAnterior:CLLocation = CLLocation()
-    var posInicial:CLLocation? = nil
+    var posInicial:CLLocation! = nil
     var distanciaAcumulada = 0.0
     var distancia = 0.0
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        self.clManejador.delegate = self
-        self.clManejador.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        self.clManejador.requestWhenInUseAuthorization()
+        manejador.delegate = self
+        manejador.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        manejador.requestWhenInUseAuthorization()
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,25 +55,23 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    /**
-     
-     Parte del GPS
-     */
-     
-     
+}
+
+extension ViewController: CLLocationManagerDelegate {
      //autorizacion de la app para que lo accepte el usuario
-    private func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
-            
-            self.clManejador.startUpdatingLocation()
-            self.clManejador.startUpdatingHeading()
+            manejador.startUpdatingLocation()
+            manejador.startUpdatingHeading()
+            mapa.showsUserLocation = true
             mapa.showsCompass = true
             mapa.isZoomEnabled = true
             mapa.isScrollEnabled = true
-            self.clManejador.distanceFilter = 50.0
+            manejador.distanceFilter = 5.0
+            centerMapOnLocation(location: manager.location!)
         }else{
-            self.clManejador.stopUpdatingLocation()
-            self.clManejador.stopUpdatingHeading()
+            manejador.stopUpdatingLocation()
+            manejador.stopUpdatingHeading()
             mapa.showsUserLocation = false
             mapa.showsCompass = false
             mapa.isZoomEnabled = false
@@ -82,10 +80,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     //se obtnienen los valores de los 6 paramétros del protocolo
-    private func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         //let localizacionActual = locations.last
-        let localizacionActual = self.clManejador.location!
+        let localizacionActual = self.manejador.location!
         
         centerMapOnLocation(location: localizacionActual)
         
@@ -93,16 +91,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             posInicial = localizacionActual
         }
         
-        distancia = localizacionActual.distance(from: posInicial!)
+        distancia = localizacionActual.distance(from: posInicial)
         
         let pin = MKPointAnnotation() //MKPointAnnotation --> ya ha implementado el protocolo MKAnnotation
         pin.title = "\(localizacionActual.coordinate.latitude), \(localizacionActual.coordinate.longitude)"
         pin.subtitle = "\(distancia)"
         pin.coordinate = localizacionActual.coordinate
         mapa.addAnnotation(pin)
-
     }
 
+    
     func centerMapOnLocation(location: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, radioRegion * 2.0, radioRegion * 2.0)
         mapa.setRegion(coordinateRegion, animated: true)
